@@ -21,12 +21,16 @@ app.layout = html.Div(
         html.H4('LiveRandom'),
         dcc.Graph(id='live-update-graph'),
         dcc.Graph(id='live-update-graph2'),
+        html.Div(id='live-update-graph3'),
         dcc.Interval(
             id='interval-component',
             interval=1*2000),
         dcc.Interval(
             id='interval-component2',
-            interval=1*500)
+            interval=1*500),
+        dcc.Interval(
+            id='interval-component3',
+            interval=1*50)
         
     ])
 )
@@ -59,7 +63,7 @@ def update_graph_live():
     fig = {
       "data": [
         {
-          "values": [16, 15, 12, random.randint(1,99), 5, random.randint(1,99), 43],
+          "values": [16, 15, 12, random.randint(1,99), 5, random.randint(1,99), 43, 43, 43, 43],
           "labels": [
             "US",
             "China",
@@ -69,7 +73,7 @@ def update_graph_live():
             "India",
             "Rest of World"
           ],
-          "domain": {"x": [0, .48]},
+          "domain": {"x": [0, .60]},
           "name": "GHG Emissions",
           "hoverinfo":"label+percent+name",
           "hole": .4,
@@ -92,6 +96,13 @@ def update_graph_live():
     }
     return (fig)
     
+@app.callback(Output('live-update-graph3', 'children'),
+              events=[Event('interval-component3', 'interval')])
+def text():
+    
+    t = datetime.datetime.now()
+
+    return (html.H4(t))
 
 
 if __name__ == '__main__':
